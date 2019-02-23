@@ -14,38 +14,64 @@ public class Codewandler {
 		System.out.print("Bitte anzahl der Eingangsvariablen eingeben: ");
 		anzahlEingangsvariablen = Integer.parseInt(reader.readLine());
 		anzahlZeilen = (int) Math.pow(2, anzahlEingangsvariablen);
+		// DEBUG
 		System.out.println(anzahlZeilen);
 
 		linkeSeite = new boolean[anzahlEingangsvariablen][anzahlZeilen];
 		linkeSeite();
 		
-		ausgabeLinkeSeite(256, 8);
+		ausgabe(anzahlZeilen, anzahlEingangsvariablen);
 	}
 
 	public static void linkeSeite() {
+		// from 7 to 0 in Array linkeSeite (spalten/coulumns)
 		for (int i = anzahlEingangsvariablen -1; i >= 0; i--) {
-			int auflösung = (int) (anzahlZeilen / (Math.pow(2, i)));
-			System.out.println(anzahlZeilen / auflösung);
+			int auflösung = (int) (anzahlZeilen / (Math.pow(2, (i + 1))));
+			int wiederholungen = anzahlZeilen / auflösung;
+			// DEBUG
+			System.out.println(wiederholungen);
+			
+			boolean change = false;
+			// die zeilen vom punkt aus, an dem sich 0/1 geändert hat
+			int x = 0;
+			// from 0 to 255 in Array linkeSeite (zeilen/rows)
 			for (int j = 0; j < anzahlZeilen; j++) {
-				boolean change = false;
-				for (int x = 0; x < (anzahlZeilen / auflösung); x++) {
-					for (int k = 0; k < auflösung; k++) {
-						linkeSeite[i][j] = change;
-					}
-					change = (true) ? false : true;
+				
+				String output = (change) ? "1" : "0";
+				
+				linkeSeite[i][j] = change;
+				
+				if (x + 1 == auflösung) {
+					change = (change) ? false : true;
+					x = 0;
+				} else {
+					x++;
 				}
 				
 			}
 		}
 	}
 	
-	public static void ausgabeLinkeSeite(int zeilen, int spalten) {
+	public static void debugLinkeSeite(int zeilen, int spalten) {
 		for(int i  = 0; i < zeilen; i++) {
 			for (int j = 0; j < spalten; j++) {
 //				System.out.print(j);
 				System.out.print(linkeSeite[j][i] + " ");
 			}
 			System.out.print(" " + i);
+			System.out.println();
+		}
+	}
+	
+	public static void ausgabe(int zeilen, int spalten) {
+		// alle 255 zeilen (array)
+		for (int i = 0; i < zeilen; i++) {
+			// alle 7 spalten (array)
+			for (int j = 0; j < spalten; j++) {
+				
+				int output = (linkeSeite[j][i]) ? 1 : 0;
+				System.out.print(output + " ");
+			}
 			System.out.println();
 		}
 	}
