@@ -14,9 +14,9 @@ public class Codewandler {
 		System.out.print("Bitte anzahl der Eingangsvariablen eingeben: ");
 		anzahlEingangsvariablen = Integer.parseInt(reader.readLine());
 		anzahlZeilen = (int) Math.pow(2, anzahlEingangsvariablen);
-		// DEBUG
-		System.out.println(anzahlZeilen);
-
+		
+		System.out.println();
+		
 		linkeSeite = new boolean[anzahlEingangsvariablen][anzahlZeilen];
 		linkeSeite();
 		
@@ -27,9 +27,6 @@ public class Codewandler {
 		// from 7 to 0 in Array linkeSeite (spalten/coulumns)
 		for (int i = anzahlEingangsvariablen -1; i >= 0; i--) {
 			int auflösung = (int) (anzahlZeilen / (Math.pow(2, (i + 1))));
-			int wiederholungen = anzahlZeilen / auflösung;
-			// DEBUG
-			System.out.println(wiederholungen);
 			
 			boolean change = false;
 			// die zeilen vom punkt aus, an dem sich 0/1 geändert hat
@@ -37,7 +34,7 @@ public class Codewandler {
 			// from 0 to 255 in Array linkeSeite (zeilen/rows)
 			for (int j = 0; j < anzahlZeilen; j++) {
 				
-				String output = (change) ? "1" : "0";
+				
 				
 				linkeSeite[i][j] = change;
 				
@@ -67,11 +64,24 @@ public class Codewandler {
 		// alle 255 zeilen (array)
 		for (int i = 0; i < zeilen; i++) {
 			// alle 7 spalten (array)
+			
+			System.out.print("[");
 			for (int j = 0; j < spalten; j++) {
 				
 				int output = (linkeSeite[j][i]) ? 1 : 0;
-				System.out.print(output + " ");
+				
+				if (j != (spalten - 1)) {
+					System.out.print(output + ", ");					
+				} else {
+					System.out.print(output + "]");
+				}
 			}
+			// Ausgabe der rechten Seite
+			System.out.print("   ->   " + Anzeige.generateHexString(i));
+			// Zeilenangaben
+			System.out.print("    //");
+			System.out.printf("%3d",i);
+			
 			System.out.println();
 		}
 	}
